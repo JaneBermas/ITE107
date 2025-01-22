@@ -133,10 +133,34 @@ public class Calculator extends JFrame implements ActionListener {
     }
     
     public void performCalculation() {
-        // Display the calculation UI to enter numbers and operators
-        // Same as before: buttons, input, and calculation
-        setVisible(true);
+    // Check if there are values in the display
+    if (!textDisplay.getText().isEmpty() && operator != null && !operator.isEmpty()) {
+        // Parse the second input value
+        input2 = Double.parseDouble(textDisplay.getText());
+
+        // Perform the calculation
+        calculate();
+
+        // Display the result in the text display
+        textDisplay.setText(String.valueOf(resultingValue));
+
+        // Optionally mark the calculation as done
+        done = true;
+
+        // Record the operation and result to history
+        try {
+            String history = historyRecorder(
+                    String.valueOf(input1) + " " + operator + " " + String.valueOf(input2) + " = " + String.valueOf(resultingValue)
+            );
+            historyDisplay.setText("History:\n" + history); // Update history panel with the new calculation
+        } catch (IOException e1) {
+            e1.printStackTrace();
+        }
+    } else {
+        // Display an error message if inputs are invalid (e.g., missing numbers or operator)
+        textDisplay.setText("Error");
     }
+}
 
     public void viewHistory() {
     // Show the history in a popup dialog
