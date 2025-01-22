@@ -139,14 +139,18 @@ public class Calculator extends JFrame implements ActionListener {
     }
 
     public void viewHistory() {
-        // View history by reading from the history file
-        try {
-            String history = readHistory();
-            historyDisplay.setText("History:\n" + history);
-        } catch (IOException ex) {
-            historyDisplay.setText("Error reading history.");
+    // Show the history in a popup dialog
+    try {
+        String existingHistory = readHistory();
+        if (existingHistory.trim().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "No previous history found.", "History", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(this, existingHistory, "History", JOptionPane.INFORMATION_MESSAGE);
         }
+    } catch (IOException ex) {
+        JOptionPane.showMessageDialog(this, "Error reading history.", "Error", JOptionPane.ERROR_MESSAGE);
     }
+}
 
     public void handleButtonInput(String calcuInput) {
         if (textDisplay.getText().length() <= 0 && calcuInput.equals("0")) {
